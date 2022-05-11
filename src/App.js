@@ -13,7 +13,11 @@ const theme = createTheme({
     },
     secondary: {
       main: GREEN
-    }
+    },
+    neutral: {
+      main: '#64748B',
+      contrastText: '#fff',
+    },
   }
 });
 
@@ -23,13 +27,16 @@ const App = () => {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
+
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
           <Button onClick={() => setRoom('Mountain')}>Mountain</Button>
           <Button onClick={() => setRoom('City')}>City</Button>
         </ButtonGroup>
+
+
+        <Room name={room}/>
       </ThemeProvider>
 
-      <Room name={room}/>
     </div>
   );
 }
