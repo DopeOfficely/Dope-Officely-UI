@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-
+import React from 'react'
 import Button from '@mui/material/Button';
 import {useState} from 'react'
 import Typography from '@mui/material/Typography';
@@ -45,17 +45,54 @@ const Desk = ({data}) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {data.name}
+            Desk: {data.name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {data.description}
           </Typography>
-          <Button color='primary' onClick={bookDesk} >Book Desk</Button>
+          { data.booked &&
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Your colleague {data.bookedBy} has booked this desk
+            </Typography>
+          }
+          {!data.booked &&
+            <BookingModal desk={data}/>
+          }
         </Box>
       </Modal>
     </>
 
   )
+}
+
+const BookingModal = ({desk}) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen}>Book it</Button>
+      <Modal
+        hideBackdrop
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 300 }}>
+          <h2 id="child-modal-title">
+            Book desk {desk.name}
+          </h2>
+          <Button onClick={handleClose}>Book</Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
 }
 
 export { Desk }
