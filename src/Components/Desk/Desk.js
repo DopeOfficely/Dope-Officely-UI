@@ -25,6 +25,10 @@ const style = {
   p: 4,
 };
 
+const sectionStyle = {
+  marginTop: '1rem',
+}
+
 const Desk = ({data}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -44,16 +48,15 @@ const Desk = ({data}) => {
 
 
   const colourPicker = () => {
-    let type = ''
-    if ( !data.available){
-      return data.booked ? 'primary' : 'neutral'
-    } else {return type = 'secondary' }
+    if ( data.enabled){
+      return data.booked ? 'primary' : 'secondary'
+    } else {return 'neutral' }
   }
 
 
   return (
     <>
-      <Button color={colourPicker()} onClick={handleOpen} >{data.name}</Button>
+      <Button color={colourPicker()} onClick={handleOpen} >{data.seat}</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -62,7 +65,7 @@ const Desk = ({data}) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Book Desk {data.name}
+            Book Desk {data.seat}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {data.description}
@@ -76,7 +79,7 @@ const Desk = ({data}) => {
             // <BookingModal desk={data}/>
             <React.Fragment>
               <br/>
-              <TextField id="user-input" label="Name" variant="filled" value={userName} onChange={handleUserChange} />
+              <TextField id="user-input" label="Name" variant="filled" value={userName} onChange={handleUserChange} sx={sectionStyle}/>
                 {/* <Input
                   id="userName"
                   value={userName}
@@ -91,11 +94,13 @@ const Desk = ({data}) => {
                 onChange={(newValue) => {
                   setDateValue(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField {...params}
+                sx={sectionStyle}
+                />}
               />
               <br/>
 
-              <Button onClick={bookDesk}>Book</Button>
+              <Button onClick={bookDesk} sx={sectionStyle}>Book</Button>
             </React.Fragment>
           }
         </Box>

@@ -3,6 +3,9 @@ import { MINT } from '../utils/colours'
 import { Desk } from './Desk/Desk'
 import { desks } from './Desk/deskData'
 
+import { useState } from 'react'
+
+const axios = require('axios');
 
 const style = {
   display: 'grid',
@@ -14,6 +17,21 @@ const style = {
 
 
 const Room = ({room}) => {
+	console.log("​Room -> room", room)
+  const [deskData, setDeskData] = useState([])
+	console.log("​Room -> deskData", deskData)
+  const date = '2022-05-11'
+  axios.get(`/rooms/${room.id}`)
+  .then(function (response) {
+    setDeskData(response.data)
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function (response) {
+
+  });
   return (
     <div>
       { room.id !== null &&
@@ -21,10 +39,13 @@ const Room = ({room}) => {
         <h1>{room.name}</h1>
         {/* <Box sx={{ bgcolor: MINT, height: '60vh', width: '80vw'}} > */}
           <ButtonGroup variant="contained">
-          <div style={style}>
-            { desks.map((desk) => <Desk data={desk} key={desk.name}/>) }
+          { deskData &&
+            <div style={style}>
+              { deskData.map((desk) => <Desk data={desk} key={desk.id}/>) }
 
-          </div>
+            </div>
+          }
+
           </ButtonGroup>
         {/* </Box> */}
       </Container>

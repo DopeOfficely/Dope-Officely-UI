@@ -11,15 +11,13 @@ const RoomSelector = () => {
   const [roomData, setRoomData] = useState([])
   axios.get('/rooms')
   .then(function (response) {
-    // handle success
-    console.log(response);
+    setRoomData(response.data)
   })
   .catch(function (error) {
     // handle error
     console.log(error);
   })
   .then(function () {
-    setRoomData(data)
   });
   const [room, setRoom] = useState({id: null})
   return (
@@ -30,8 +28,10 @@ const RoomSelector = () => {
       }
 
     </ButtonGroup>
+    { room.id &&
+      <Room room={room} />
 
-    <Room room={room} />
+    }
     </>
 
   )
