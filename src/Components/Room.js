@@ -3,6 +3,7 @@ import { MINT } from '../utils/colours'
 import { Desk } from './Desk/Desk'
 import { desks } from './Desk/deskData'
 
+
 const style = {
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 1fr)',
@@ -10,8 +11,9 @@ const style = {
   gridColumnGap: '8px',
   gridRowGap: '8px',
 }
+
+
 const Room = ({room}) => {
-	console.log("​Room -> room", room.id)
   return (
     <div>
       { room.id !== null &&
