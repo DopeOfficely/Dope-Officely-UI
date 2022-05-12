@@ -4,6 +4,13 @@ import Button from '@mui/material/Button';
 import {useState} from 'react'
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker'
+
+import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
+import startOfTomorrow from 'date-fns/startOfTomorrow'
+import format from 'date-fns/format'
+
 
 
 const style = {
@@ -22,6 +29,19 @@ const Desk = ({data}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [dateValue, setDateValue] = React.useState(startOfTomorrow());
+
+  const [userName, setUserName] = React.useState('');
+
+  const handleUserChange = (event) => {
+    setUserName(event.target.value)
+  }
+
+  const bookDesk = () => {
+    console.log( "USER: ", userName, "DATE: ", format(dateValue, 'yyyy/MM/dd' ))
+    handleClose()
+  }
+
 
   const colourPicker = () => {
     let type = ''
@@ -30,9 +50,6 @@ const Desk = ({data}) => {
     } else {return type = 'secondary' }
   }
 
-  const bookDesk = () => {
-    console.log("DESK BOOKED")
-  }
 
   return (
     <>
@@ -45,7 +62,7 @@ const Desk = ({data}) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Desk: {data.name}
+            Book Desk {data.name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {data.description}
@@ -56,7 +73,30 @@ const Desk = ({data}) => {
             </Typography>
           }
           {!data.booked &&
-            <BookingModal desk={data}/>
+            // <BookingModal desk={data}/>
+            <React.Fragment>
+              <br/>
+              <TextField id="user-input" label="Name" variant="filled" value={userName} onChange={handleUserChange} />
+                {/* <Input
+                  id="userName"
+                  value={userName}
+                  onChange={handleUserChange}
+                  aria-describedby="component-helper-text"
+                /> */}
+              {/* </TextField> */}
+              <br />
+              <DatePicker
+                label="Booking Date"
+                value={dateValue}
+                onChange={(newValue) => {
+                  setDateValue(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              <br/>
+
+              <Button onClick={bookDesk}>Book</Button>
+            </React.Fragment>
           }
         </Box>
       </Modal>
@@ -73,6 +113,8 @@ const BookingModal = ({desk}) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const [value, setValue] = React.useState(startOfTomorrow());
+
 
   return (
     <React.Fragment>
@@ -88,6 +130,14 @@ const BookingModal = ({desk}) => {
           <h2 id="child-modal-title">
             Book desk {desk.name}
           </h2>
+          <DatePicker
+            label="Booking Date"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
           <Button onClick={handleClose}>Book</Button>
         </Box>
       </Modal>

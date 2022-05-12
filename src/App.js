@@ -3,6 +3,9 @@ import { RoomSelector } from './Components/RoomSelector/RoomSelector'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { GREEN, JANE_BLUE } from './utils/colours';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
 
 const theme = createTheme({
   palette: {
@@ -19,14 +22,18 @@ const theme = createTheme({
   }
 });
 
-const App = () => {
+const App = ({children}) => {
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={theme}>
 
-        <RoomSelector />
+          <RoomSelector />
 
-      </ThemeProvider>
+          {children}
+        </ThemeProvider>
+    </LocalizationProvider>
+
 
     </div>
   );
